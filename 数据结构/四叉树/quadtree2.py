@@ -142,9 +142,9 @@ class Cquadtree():
         return lReturnObj
 
     def printself(self):
-        print '区域：'
+        print 'area:'
         self.m_Rect.printself()
-        print '包含：'
+        print 'include:'
         for ball in self.m_lRigiObj:
             ball.printself()
         for child in self.m_lQuadtree:
