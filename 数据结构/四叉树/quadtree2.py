@@ -159,6 +159,7 @@ def do_crash():
         quad.insert(RigiBall)
 
     dCrashRecord = {}  # 记录已检测的碰撞，减少重复计算
+    dObjCrashNumRecord = {}  # 记录每个碰撞体触发碰撞的次数
     iCheckCount = 0
     iReduceCount = 0
     for RigiBall in lRigiBall:
@@ -182,7 +183,18 @@ def do_crash():
                 # ReturnObj.printself()
                 ReturnObj.crashDraw()
                 RigiBall.crashDraw()
+
+                if not dObjCrashNumRecord.get(ReturnObj):
+                    dObjCrashNumRecord[ReturnObj] = 0
+                dObjCrashNumRecord[ReturnObj] = dObjCrashNumRecord[ReturnObj] + 1
+                if not dObjCrashNumRecord.get(RigiBall):
+                    dObjCrashNumRecord[RigiBall] = 0
+                dObjCrashNumRecord[RigiBall] = dObjCrashNumRecord[RigiBall] + 1
+
     print('check crash count:%d, ruduce by map record:%d' % (iCheckCount, iReduceCount))
+    # for oBall, num in dObjCrashNumRecord.items():
+    #     oBall.printself()
+    #     print(num)
 
 def is_crash(ball1, ball2):
     iDX = ball1.m_X - ball2.m_X
@@ -197,10 +209,10 @@ quad = Cquadtree(0, oRect)
 
 lRigiBall = []
 # 随机若干个碰撞体
-for i in range(50):
+for i in range(40):
     x = random.randint(1, 600)
     y = random.randint(1, 400)
-    r = random.randint(5, 20)
+    r = random.randint(5, 40)
     lRigiBall.append(CBall(x, y, r))
 
 do_crash()
